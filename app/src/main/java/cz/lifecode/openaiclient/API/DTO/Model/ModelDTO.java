@@ -1,4 +1,4 @@
-package cz.lifecode.openaiclient.API.DTO;
+package cz.lifecode.openaiclient.API.DTO.Model;
 
 final public class ModelDTO {
     String id;

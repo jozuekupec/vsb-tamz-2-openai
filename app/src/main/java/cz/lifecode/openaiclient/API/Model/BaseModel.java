@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.lifecode.openaiclient.API.Authorization;
-import cz.lifecode.openaiclient.API.DTO.ModelDTO;
-import cz.lifecode.openaiclient.API.DTO.ModelsListDTO;
+import cz.lifecode.openaiclient.API.DTO.Model.ModelDTO;
+import cz.lifecode.openaiclient.API.DTO.Model.ModelsListDTO;
 import cz.lifecode.openaiclient.API.Stream.JsonInputStreamReader;
 
 abstract public class BaseModel implements Model {
