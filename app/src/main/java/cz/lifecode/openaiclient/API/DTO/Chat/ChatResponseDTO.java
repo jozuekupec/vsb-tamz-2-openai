@@ -1,6 +1,6 @@
 package cz.lifecode.openaiclient.API.DTO.Chat;
 
-public class ChatDTO {
+public class ChatResponseDTO {
     private String id;
     private String object;
     private int created;
