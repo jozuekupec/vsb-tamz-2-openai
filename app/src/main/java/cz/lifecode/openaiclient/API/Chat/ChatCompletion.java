@@ -1,6 +1,7 @@
 package cz.lifecode.openaiclient.API.Chat;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -48,6 +49,7 @@ public class ChatCompletion {
             OpenAiClient.handleConnection(connection);
 
             String response = new JsonInputStreamReader(connection.getInputStream()).readAll();
+            Logger.json(response);
             chatResponseDTO = new Gson().fromJson(response, ChatResponseDTO.class);
         } catch (IOException e) {
             throw new ClientOpenAiException(e);

@@ -1,6 +1,7 @@
 package cz.lifecode.openaiclient.API.Image;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -48,6 +49,7 @@ public class ImageGeneration {
             OpenAiClient.handleConnection(connection);
 
             String response = new JsonInputStreamReader(connection.getInputStream()).readAll();
+            Logger.json(response);
             imageGenerationResponseDTO = new Gson().fromJson(response, ImageGenerationResponseDTO.class);
         } catch (IOException e) {
             throw new ClientOpenAiException(e);

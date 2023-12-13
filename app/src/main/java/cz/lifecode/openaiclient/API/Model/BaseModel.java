@@ -1,6 +1,7 @@
 package cz.lifecode.openaiclient.API.Model;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -53,6 +54,7 @@ abstract public class BaseModel implements Model {
             OpenAiClient.handleConnection(connection);
 
             String response = new JsonInputStreamReader(connection.getInputStream()).readAll();
+            Logger.json(response);
             ModelsListDTO models = new Gson().fromJson(response, ModelsListDTO.class);
             for (ModelDTO model: models.getData()) {
                 fetchedModelIds.add(model.getId());
