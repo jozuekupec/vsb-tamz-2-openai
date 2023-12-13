@@ -5,17 +5,15 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 import cz.lifecode.openaiclient.API.Authorization;
+import cz.lifecode.openaiclient.API.Exceptions.ClientOpenAiException;
 import cz.lifecode.openaiclient.API.DTO.Chat.ChatRequestDTO;
 import cz.lifecode.openaiclient.API.DTO.Chat.ChatResponseDTO;
-import cz.lifecode.openaiclient.API.DTO.Model.ModelDTO;
-import cz.lifecode.openaiclient.API.DTO.Model.ModelsListDTO;
+import cz.lifecode.openaiclient.API.Exceptions.OpenAiException;
+import cz.lifecode.openaiclient.API.OpenAiClient;
 import cz.lifecode.openaiclient.API.Stream.JsonInputStreamReader;
 
 public class ChatCompletion {
@@ -27,7 +25,7 @@ public class ChatCompletion {
         this.authorization = authorization;
     }
 
-    public ChatResponseDTO sendMessage(ChatRequestDTO chatRequest) {
+    public ChatResponseDTO sendMessage(ChatRequestDTO chatRequest) throws OpenAiException {
         HttpURLConnection connection = null;
         ChatResponseDTO chatResponseDTO = null;
 
@@ -47,14 +45,12 @@ public class ChatCompletion {
             outputStreamWriter.flush();
 
             connection.connect();
-            if (connection.getResponseCode() > 299) {
-                throw new RuntimeException("There is an issue with communication!");
-            }
+            OpenAiClient.handleConnection(connection);
 
             String response = new JsonInputStreamReader(connection.getInputStream()).readAll();
             chatResponseDTO = new Gson().fromJson(response, ChatResponseDTO.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ClientOpenAiException(e);
         } finally {
             if (connection != null) {
                 connection.disconnect();

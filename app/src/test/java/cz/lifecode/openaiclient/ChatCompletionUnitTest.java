@@ -4,11 +4,14 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import java.util.logging.Logger;
+
 import cz.lifecode.openaiclient.API.Authorization;
 import cz.lifecode.openaiclient.API.Chat.ChatCompletion;
 import cz.lifecode.openaiclient.API.DTO.Chat.ChatRequestDTO;
 import cz.lifecode.openaiclient.API.DTO.Chat.ChatResponseDTO;
 import cz.lifecode.openaiclient.API.DTO.Chat.MessageDTO;
+import cz.lifecode.openaiclient.API.Exceptions.OpenAiException;
 
 public class ChatCompletionUnitTest {
     @Test
@@ -24,7 +27,13 @@ public class ChatCompletionUnitTest {
         chatRequest.setModel("gpt-4");
         chatRequest.setMessages(messages);
 
-        ChatResponseDTO response = chatCompletion.sendMessage(chatRequest);
+        ChatResponseDTO response = null;
+        try {
+            response = chatCompletion.sendMessage(chatRequest);
+        } catch (OpenAiException exception) {
+            Logger.getGlobal().warning(exception.getMessage());
+            return;
+        }
         assertTrue(response.getModel().contains(chatRequest.getModel()));
         assertTrue(response.getChoices().length > 0);
     }

@@ -10,8 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.lifecode.openaiclient.API.Authorization;
+import cz.lifecode.openaiclient.API.Exceptions.ClientOpenAiException;
 import cz.lifecode.openaiclient.API.DTO.Model.ModelDTO;
 import cz.lifecode.openaiclient.API.DTO.Model.ModelsListDTO;
+import cz.lifecode.openaiclient.API.Exceptions.IntegrationOpenAiException;
+import cz.lifecode.openaiclient.API.Exceptions.OpenAiException;
+import cz.lifecode.openaiclient.API.OpenAiClient;
 import cz.lifecode.openaiclient.API.Stream.JsonInputStreamReader;
 
 abstract public class BaseModel implements Model {
@@ -24,15 +28,15 @@ abstract public class BaseModel implements Model {
         this.authorization = authorization;
     }
 
-    public List<String> getAvailableModelIds() {
+    public List<String> getAvailableModelIds() throws OpenAiException {
         if (modelIds == null) {
-            fetch(); // TODO: Handle returned value
+            fetch();
         }
 
         return modelIds;
     }
 
-    protected boolean fetch() {
+    protected void fetch() throws OpenAiException {
         HttpURLConnection connection = null;
         List<String> fetchedModelIds = new ArrayList<>();
 
@@ -46,20 +50,17 @@ abstract public class BaseModel implements Model {
             connection.setReadTimeout(15000);
             connection.connect();
 
-            if (connection.getResponseCode() > 299) {
-                return false;
-            }
+            OpenAiClient.handleConnection(connection);
 
             String response = new JsonInputStreamReader(connection.getInputStream()).readAll();
             ModelsListDTO models = new Gson().fromJson(response, ModelsListDTO.class);
             for (ModelDTO model: models.getData()) {
                 fetchedModelIds.add(model.getId());
             }
-
         } catch (MalformedURLException exception) {
-            return false;
+            throw new IntegrationOpenAiException(exception);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ClientOpenAiException(e);
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -67,7 +68,6 @@ abstract public class BaseModel implements Model {
         }
 
         modelIds = filterModels(fetchedModelIds);
-        return true;
     }
 
     abstract protected List<String> filterModels(List<String> modelIds);
