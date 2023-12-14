@@ -1,11 +1,14 @@
 package cz.lifecode.openaiclient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.widget.ProgressBar;
 
-import com.orhanobut.logger.AndroidLogAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.orhanobut.logger.Logger;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,17 +16,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.addLogAdapter(new AndroidLogAdapter());
         setContentView(R.layout.activity_main);
+//
+//        ProgressBar progressBarLine = (ProgressBar) findViewById(R.id.progressBar);
+//        ProgressBar progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
+//
+//        ProgressBarThread progressBarLineThread = new ProgressBarThread(progressBarLine, 1500);
+//        progressBarLineThread.start();
+//
+//        ProgressBarThread progressBarCircleThread = new ProgressBarThread(progressBarCircle, 1000);
+//        progressBarCircleThread.start();
 
-        ProgressBar progressBarLine = (ProgressBar) findViewById(R.id.progressBar);
-        ProgressBar progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
 
-        ProgressBarThread progressBarLineThread = new ProgressBarThread(progressBarLine, 1500);
-        progressBarLineThread.start();
-
-        ProgressBarThread progressBarCircleThread = new ProgressBarThread(progressBarCircle, 1000);
-        progressBarCircleThread.start();
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
     public class ProgressBarThread extends Thread {
