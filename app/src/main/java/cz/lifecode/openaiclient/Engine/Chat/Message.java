@@ -3,9 +3,9 @@ package cz.lifecode.openaiclient.Engine.Chat;
 import java.util.Date;
 
 public class Message {
-    private Role role;
-    private String content;
-    private Date date;
+    protected Role role;
+    protected String content;
+    protected Date date;
 
     public Message(Role role, String content) {
         this.role = role;

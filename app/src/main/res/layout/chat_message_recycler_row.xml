@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp">
+
+    <LinearLayout
+        android:id="@+id/chatMessageOpenAiLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="88dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/chatMessageOpenAiMessageLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corners_except_left_bottom"
+            android:backgroundTint="@color/chat_message_openai"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/chatMessageOpenAiContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/chatMessageOpenAiTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textAlignment="textStart"
+            android:textColor="@color/chat_message_time"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chatMessageUserLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="88dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/chatMessageUserMessageLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/rounded_corners_except_right_bottom"
+            android:backgroundTint="@color/chat_message_user"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/chatMessageUserContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/chatMessageUserTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_gravity="end"
+            android:textColor="@color/chat_message_time"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</RelativeLayout>

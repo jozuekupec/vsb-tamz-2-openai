@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="navigation_background">#2B2D30</color>
+
+    <color name="chat_message_time">#80FFFFFF</color>
+</resources>
