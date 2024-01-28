@@ -58,5 +58,8 @@ public class MessagingThreadFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(chatRecyclerAdapter);
+        recyclerView.post(() -> {
+            recyclerView.scrollToPosition(chatRecyclerAdapter.getItemCount() - 1);
+        });
     }
 }
