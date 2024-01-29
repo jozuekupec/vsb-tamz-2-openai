@@ -3,23 +3,14 @@ package cz.lifecode.openaiclient;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-
-import com.orhanobut.logger.Logger;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import cz.lifecode.openaiclient.Engine.Application.OpenAiApplication;
-import cz.lifecode.openaiclient.Engine.Chat.Message;
-import cz.lifecode.openaiclient.Engine.Chat.Role;
-import cz.lifecode.openaiclient.MessagingThread.MessagingThreadFragment;
 
 public class ChatFragment extends Fragment {
     public ChatFragment() {
@@ -42,11 +33,6 @@ public class ChatFragment extends Fragment {
         todayNight.set(Calendar.SECOND, 0);
 
         OpenAiApplication.getInstance().getChatManager().createNewThread();
-        OpenAiApplication.getInstance().getChatManager().getCurrentThread().addMessage(new Message(Role.USER, "Hii", dayBefore.getTime()));
-        OpenAiApplication.getInstance().getChatManager().getCurrentThread().addMessage(new Message(Role.OPENAI, "Go sleep", todayNight.getTime()));
-        OpenAiApplication.getInstance().getChatManager().getCurrentThread().addMessage(new Message(Role.USER, "Hello world"));
-        OpenAiApplication.getInstance().getChatManager().getCurrentThread().addMessage(new Message(Role.OPENAI, "Hello there"));
-        OpenAiApplication.getInstance().getChatManager().getCurrentThread().addMessage(new Message(Role.USER, "Nice to meet you"));
     }
 
     @Override

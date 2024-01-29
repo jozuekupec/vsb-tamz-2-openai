@@ -19,4 +19,22 @@ public class MessageDTO {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getRoleUser()
+    {
+        return "user";
+    }
+
+    public String getRoleOpenAi()
+    {
+        return "assistant";
+    }
+
+    public void setRoleUser() {
+        this.role = getRoleUser();
+    }
+
+    public void setRoleOpenAi() {
+        this.role = getRoleOpenAi();
+    }
 }
