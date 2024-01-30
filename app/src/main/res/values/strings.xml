@@ -23,4 +23,14 @@
     <string name="chat_send_a_message">Send a message</string>
     <string name="chat_send_message_microphone_button_content_description">Microphone button</string>
     <string name="invalid_access_token">Invalid access token!</string>
+    <string name="splash_screen_app_logo">App logo</string>
+    <string name="login_title">Welcome</string>
+    <string name="login_powered_by">powered by OpenAI</string>
+    <string name="login_save">Save</string>
+    <string name="login_reset">Reset</string>
+    <string name="login_about_app">Lightweight and easy to use app for using AI power. You can chat with AI or generate powerfull images. Do not have to be limited.</string>
+    <string name="login_api_key_required">API Key is required for using application</string>
+    <string name="login_api_key_hint">API Key</string>
+    <string name="chat_speech_recognition_something_went_wrong">Something went wrong with speech recognition</string>
+    <string name="chat_speech_recognition_command">Speak</string>
 </resources>

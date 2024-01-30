@@ -51,7 +51,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:textColor="@color/input_color"
-                android:textColorHint="@color/input_color_tint"
+                android:textColorHint="@color/input_color_hint"
                 tools:ignore="LabelFor" />
 
             <ImageButton

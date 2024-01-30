@@ -12,5 +12,5 @@
 
     <color name="input_background">#E0E2F1</color>
     <color name="input_color">#BF000000</color>
-    <color name="input_color_tint">#80000000</color>
+    <color name="input_color_hint">#80000000</color>
 </resources>

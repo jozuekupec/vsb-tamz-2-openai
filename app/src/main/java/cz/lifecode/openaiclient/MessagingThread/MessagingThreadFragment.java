@@ -1,5 +1,9 @@
 package cz.lifecode.openaiclient.MessagingThread;
 
+import static android.app.Activity.RESULT_OK;
+import static android.media.MediaRecorder.AudioSource.VOICE_RECOGNITION;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +25,13 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
-import cz.lifecode.openaiclient.API.Authorization;
 import cz.lifecode.openaiclient.API.Chat.ChatCompletion;
 import cz.lifecode.openaiclient.API.DTO.Chat.ChatRequestDTO;
 import cz.lifecode.openaiclient.API.DTO.Chat.ChatResponseDTO;
 import cz.lifecode.openaiclient.API.DTO.Chat.MessageDTO;
-import cz.lifecode.openaiclient.API.Exceptions.InvalidAccessTokenOpenAiException;
 import cz.lifecode.openaiclient.API.Exceptions.OpenAiException;
 import cz.lifecode.openaiclient.Engine.Adapter.ChatRecyclerAdapter;
 import cz.lifecode.openaiclient.Engine.Application.OpenAiApplication;
@@ -36,16 +40,11 @@ import cz.lifecode.openaiclient.Engine.Chat.Message;
 import cz.lifecode.openaiclient.Engine.Chat.Role;
 import cz.lifecode.openaiclient.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MessagingThreadFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MessagingThreadFragment extends Fragment {
     public ChatRecyclerAdapter chatRecyclerAdapter;
     public RecyclerView recyclerView;
     protected ChatManager chatManager;
-    protected Authorization openAiAuthorization;
+    public static String gptModel = "gpt-4";
 
     public MessagingThreadFragment() {
         this.chatManager = OpenAiApplication.getInstance().getChatManager();
@@ -66,7 +65,9 @@ public class MessagingThreadFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ImageButton sendMessageButton = view.findViewById(R.id.chatSendMessageButton);
+        ImageButton sendMessageMicrophoneButton = view.findViewById(R.id.chatSendMessageMicrophoneButton);
         EditText input = view.findViewById(R.id.chatSendMessageInput);
+
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,13 +75,45 @@ public class MessagingThreadFragment extends Fragment {
                 input.setText("");
                 addMessageToChatAndNotify(newMessage);
 
-                loadOpenAiToken();
                 SendMessageToOpenAiThread sendMessageThread = new SendMessageToOpenAiThread(chatManager.getCurrentThread().getMessages());
                 sendMessageThread.start();
             }
         });
 
+        sendMessageMicrophoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.chat_speech_recognition_command));
+                intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+
+                startActivityForResult(intent, VOICE_RECOGNITION);
+            }
+        });
+
         setupChatRecyclerView();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != VOICE_RECOGNITION) {
+            return;
+        }
+
+        if (resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (result != null && !result.isEmpty()) {
+                String recognizedText = result.get(0);
+
+                EditText input = requireView().findViewById(R.id.chatSendMessageInput);
+                input.setText(recognizedText);
+            }
+        } else {
+            Toast.makeText(getContext(), R.string.chat_speech_recognition_something_went_wrong, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void addMessageToChatAndNotify(Message message) {
@@ -98,7 +131,7 @@ public class MessagingThreadFragment extends Fragment {
         }
 
         public void run() {
-            chatCompletion = new ChatCompletion(openAiAuthorization);
+            chatCompletion = new ChatCompletion(OpenAiApplication.getInstance().getOpenAiAuthorization());
             messagesDTO = new ArrayList<>();
 
             for (Message message : messages) {
@@ -113,7 +146,7 @@ public class MessagingThreadFragment extends Fragment {
             }
 
             ChatRequestDTO chatRequest = new ChatRequestDTO();
-            chatRequest.setModel("gpt-4");
+            chatRequest.setModel(gptModel);
             chatRequest.setMessages(messagesDTO.toArray(new MessageDTO[0]));
 
             try {
@@ -141,14 +174,5 @@ public class MessagingThreadFragment extends Fragment {
         recyclerView.post(() -> {
             recyclerView.scrollToPosition(chatRecyclerAdapter.getItemCount() - 1);
         });
-    }
-
-    private void loadOpenAiToken() {
-        try {
-            this.openAiAuthorization = new Authorization(requireContext());
-        } catch (InvalidAccessTokenOpenAiException e) {
-            this.openAiAuthorization = new Authorization("");
-            Toast.makeText(requireContext(), R.string.invalid_access_token, Toast.LENGTH_LONG).show();
-        }
     }
 }

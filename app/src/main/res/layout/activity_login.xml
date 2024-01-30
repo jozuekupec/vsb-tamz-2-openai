@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/activity_horizontal_margin"
+    android:paddingVertical="13dp"
+    tools:context=".SplashActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/loginTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_title"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/loginAboutAppTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="27dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="35dp"
+            android:text="@string/login_about_app"
+            android:textAlignment="center"
+            android:textSize="11sp" />
+
+        <EditText
+            android:id="@+id/loginApiKeyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/input_primary"
+            android:hint="@string/login_api_key_hint"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="1dp"
+            android:textColor="@color/input_color"
+            android:textColorHint="@color/input_color_hint"
+            android:textSize="15sp"
+            tools:ignore="LabelFor" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="@string/login_api_key_required"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loginResetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/login_buttonHeight"
+                android:layout_weight="1"
+                android:background="@drawable/button_primary_outline"
+                android:text="@string/login_reset"
+                android:textAllCaps="false"
+                android:textColor="@drawable/button_text_primary_outline"
+                android:textSize="15sp" />
+
+            <Space
+                android:layout_width="13dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loginSaveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/login_buttonHeight"
+                android:layout_weight="1"
+                android:background="@drawable/button_primary"
+                android:text="@string/login_save"
+                android:textAllCaps="false"
+                android:textColor="@drawable/button_text_primary"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/loginPoweredByTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_powered_by"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
