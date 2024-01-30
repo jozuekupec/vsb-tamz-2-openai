@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatFragment">
+
+    <TextView
+        android:id="@+id/settingsTitle"
+        style="@style/FragmentMainTitle"
+        android:layout_width="0dp"
+        android:text="@string/title_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/settingsApiKeyEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/input_primary"
+        android:hint="@string/login_api_key_hint"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingHorizontal="17dp"
+        android:paddingVertical="1dp"
+        android:textColor="@color/input_color"
+        android:textColorHint="@color/input_color_hint"
+        android:textSize="15sp"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/settingsTitle"
+        tools:ignore="LabelFor" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/settingsResetButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/login_buttonHeight"
+        android:layout_weight="1"
+        android:background="@drawable/button_danger_outline"
+        android:text="@string/login_reset"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_text_danger_outline"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

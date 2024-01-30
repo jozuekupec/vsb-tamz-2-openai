@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Calendar;
-
 import cz.lifecode.openaiclient.Engine.Application.OpenAiApplication;
 
 public class ChatFragment extends Fragment {
@@ -24,13 +22,6 @@ public class ChatFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Calendar dayBefore = Calendar.getInstance();
-        Calendar todayNight = Calendar.getInstance();
-        dayBefore.set(Calendar.DAY_OF_MONTH, 27);
-        todayNight.set(Calendar.HOUR_OF_DAY, 0);
-        todayNight.set(Calendar.MINUTE, 0);
-        todayNight.set(Calendar.SECOND, 0);
 
         OpenAiApplication.getInstance().getChatManager().createNewThread();
     }

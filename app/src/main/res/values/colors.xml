@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary_color">#394397</color>
+    <color name="danger">#D45050</color>
 
     <color name="navigation_background">#D9D9D9</color>
 
